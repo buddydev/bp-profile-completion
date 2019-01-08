@@ -17,18 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return mixed
  */
-function bpprofilec_get_option( $setting = '' ) {
+function bpprocn_get_option( $setting ) {
 
-	$default  = bpprofilec_get_default_options();
-	$settings = get_option( 'bppc_settings' );
+	$settings = get_option( 'bpprocn_settings', bpprocn_get_default_options() );
 
-	if ( isset( $settings[ $setting ] ) ) {
-		return $settings[ $setting ];
-	} elseif ( isset( $default[ $setting ] ) ) {
-		return $default[ $setting ];
-	}
-
-	return false;
+	return isset( $settings[ $setting ] ) ? $settings[ $setting ] : null;
 }
 
 /**
@@ -36,7 +29,7 @@ function bpprofilec_get_option( $setting = '' ) {
  *
  * @return array
  */
-function bpprofilec_get_default_options() {
+function bpprocn_get_default_options() {
 
 	$defaults = array(
 		'required_criteria'                  => array(
@@ -59,10 +52,10 @@ function bpprofilec_get_default_options() {
  *
  * @return bool
  */
-function bpprofilec_is_required_fields_mandatory() {
-	$required_criteria = bpprofilec_get_option( 'required_criteria' );
+function bpprocn_is_required_fields_required() {
+	$required_criteria = bpprocn_get_option( 'required_criteria' );
 
-	return in_array( 'all_req_fields', (array) $required_criteria );
+	return in_array( 'all_req_fields', (array) $required_criteria, true );
 }
 
 /**
@@ -70,10 +63,10 @@ function bpprofilec_is_required_fields_mandatory() {
  *
  * @return bool
  */
-function bpprofilec_is_profile_photo_mandatory() {
-	$required_criteria = bpprofilec_get_option( 'required_criteria' );
+function bpprocn_is_profile_photo_required() {
+	$required_criteria = bpprocn_get_option( 'required_criteria' );
 
-	return in_array( 'req_profile_photo', (array) $required_criteria );
+	return in_array( 'req_profile_photo', (array) $required_criteria, true );
 }
 
 /**
@@ -81,10 +74,10 @@ function bpprofilec_is_profile_photo_mandatory() {
  *
  * @return bool
  */
-function bpprofilec_is_profile_cover_mandatory() {
-	$required_criteria = bpprofilec_get_option( 'required_criteria' );
+function bpprocn_is_profile_cover_required() {
+	$required_criteria = bpprocn_get_option( 'required_criteria' );
 
-	return in_array( 'req_profile_cover', (array) $required_criteria );
+	return in_array( 'req_profile_cover', (array) $required_criteria, true );
 }
 
 /**
@@ -92,8 +85,8 @@ function bpprofilec_is_profile_cover_mandatory() {
  *
  * @return bool
  */
-function bpprofilec_is_enable_profile_only_restriction() {
-	return bpprofilec_get_option( 'restrict_access_to_profile_only' );
+function bpprocn_is_profile_restriction_enabled() {
+	return bpprocn_get_option( 'restrict_access_to_profile_only' );
 }
 
 /**
@@ -101,6 +94,22 @@ function bpprofilec_is_enable_profile_only_restriction() {
  *
  * @return bool
  */
-function bpprofile_is_enable_show_profile_incomplete_message() {
-	return bpprofilec_get_option( 'show_profile_incomplete_message' );
+function bpprocn_show_profile_incomplete_message() {
+	return bpprocn_get_option( 'show_profile_incomplete_message' );
+}
+
+/**
+ * Check if user has incomplete profile?
+ *
+ * @param int $user_id user id.
+ *
+ * @return bool
+ */
+function bpprocn_has_incomplete_profile( $user_id ) {
+
+	if ( get_user_meta( $user_id, '_has_complete_profile', true ) ) {
+		return false;
+	}
+
+	return true;
 }

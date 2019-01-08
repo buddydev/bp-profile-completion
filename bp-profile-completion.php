@@ -2,8 +2,8 @@
 /**
  * Plugin Name: BuddyPress Profile Completion
  * Version: 1.0.0
- * Plugin URI: https://buddydev.com/plugins/buddypress-profile-completion
- * Description: An add-on for BuddyPress allows site-admin to make mandatory fields must be filled up by site-users before using other things.
+ * Plugin URI: https://buddydev.com/plugins/bp-profile-completion
+ * Description: Force users to complete required fields, photos and cover.
  * Author: BuddyDev
  * Author URI: https://buddydev.com/
  * Requires PHP: 5.3
@@ -114,7 +114,20 @@ class BP_Profile_Completion {
 		spl_autoload_register( $autoloader );
 
 		Bootstrapper::boot();
+
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 	}
+	/**
+	 * On activation.
+	 */
+	public function activate() {
+
+		if ( ! get_option( 'bpprocn_settings' ) ) {
+			require_once $this->path . 'src/core/bp-profile-completion-functions.php';
+			update_option( 'bpprocn_settings', bpprocn_get_default_options() );
+		}
+	}
+
 
 	/**
 	 * Magic method for accessing property as readonly(It's a lie, references can be updated).

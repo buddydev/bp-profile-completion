@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class Profile_Completion_Helper
  */
-class Profile_Completion_Helper {
+class BP_Profile_Completion_Helper {
 
 	/**
 	 * Please do not set it. It ise used for temporary notice.
@@ -180,18 +180,18 @@ class Profile_Completion_Helper {
 		}
 
 		$incomplete = true;
-		// consider that we have the has_field and avatar available by default.
+		// consider that we have the fields and avatar available by default.
 		$has_fields = $has_photo = $has_avatar = true;
 
-		if ( bpprofilec_is_required_fields_mandatory() ) {
+		if ( bpprocn_is_required_fields_required() ) {
 			$has_fields = $this->has_required_field_data( $user_id );
 		}
 
-		if ( bpprofilec_is_profile_photo_mandatory() ) {
+		if ( bpprocn_is_profile_photo_required() ) {
 			$has_photo = $this->has_uploaded_avatar( $user_id );
 		}
 
-		if ( bpprofilec_is_profile_cover_mandatory() ) {
+		if ( bpprocn_is_profile_cover_required() ) {
 			$has_avatar = $this->has_uploaded_cover( $user_id );
 		}
 
@@ -201,24 +201,24 @@ class Profile_Completion_Helper {
 		if ( $has_avatar && $has_photo && $has_fields ) {
 			$this->mark_complete_profile( $user_id );
 			$incomplete = false;
-			do_action( 'bppc_user_profile_completed', $user_id );
+			do_action( 'bpprocn_user_profile_completed', $user_id );
 		} elseif ( ! $has_fields ) {
-			$this->notice = bpprofilec_get_option( 'required_fields_incomplete_message' );
+			$this->notice = bpprocn_get_option( 'required_fields_incomplete_message' );
 			$redirect_url = $redirect_url . '/edit/';
 		} elseif ( ! $has_photo ) {
-			$this->notice = bpprofilec_get_option( 'profile_photo_incomplete_message' );
+			$this->notice = bpprocn_get_option( 'profile_photo_incomplete_message' );
 			$redirect_url = $redirect_url . '/change-avatar/';
 		} else {
-			$this->notice = bpprofilec_get_option( 'profile_cover_incomplete_message' );
+			$this->notice = bpprocn_get_option( 'profile_cover_incomplete_message' );
 			$redirect_url = $redirect_url . '/change-cover-image/';
 		}
 
 		if ( $incomplete ) {
-			if ( bpprofile_is_enable_show_profile_incomplete_message() && $this->notice ) {
+			if ( bpprocn_show_profile_incomplete_message() && $this->notice ) {
 				bp_core_add_message( $this->notice, 'error' );
 			}
 
-			if ( bpprofilec_is_enable_profile_only_restriction() && ! bp_is_user_profile() ) {
+			if ( bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() ) {
 				bp_core_redirect( $redirect_url );
 			}
 		}

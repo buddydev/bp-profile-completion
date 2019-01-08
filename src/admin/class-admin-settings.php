@@ -73,7 +73,7 @@ class Admin_Settings {
 
 		global $pagenow;
 
-		// We need to load on options.php otherwise settings won't be reistered.
+		// We need to load on options.php otherwise settings won't be registered.
 		if ( 'options.php' === $pagenow ) {
 			return true;
 		}
@@ -94,14 +94,14 @@ class Admin_Settings {
 			return;
 		}
 
-		$page = new Page( 'bppc_settings', __( 'BuddyPress Profile Completion', 'bp-profile-completion' ) );
+		$page = new Page( 'bpprocn_settings', __( 'BuddyPress Profile Completion', 'bp-profile-completion' ) );
 
 		// General settings tab.
 		$panel = $page->add_panel( 'settings', _x( 'Settings', 'Admin settings panel title', 'bp-profile-completion' ) );
 
 		$required_criteria = $panel->add_section( 'required_criteria', _x( 'Required criteria for profile completion', 'Admin settings section title', 'bp-profile-completion' ) );
 
-		$defaults = bpprofilec_get_default_options();
+		$defaults = bpprocn_get_default_options();
 
 		$required_criteria->add_field( array(
 			'name'    => 'required_criteria',
@@ -128,6 +128,7 @@ class Admin_Settings {
 					0 => __( 'No', 'bp-profile-completion' ),
 				),
 				'default' => $defaults['restrict_access_to_profile_only'],
+				'desc'    => __( 'If enabled and the profile is not complete, user will be restricted to their own profile. Does not apply to admin users.', 'bp-profile-completion' ),
 			),
 			array(
 				'name'    => 'show_profile_incomplete_message',
@@ -142,19 +143,19 @@ class Admin_Settings {
 			array(
 				'name'    => 'required_fields_incomplete_message',
 				'label'   => _x( 'Required field incomplete message', 'Admin settings', 'bp-profile-completion' ),
-				'type'    => 'text',
+				'type'    => 'textarea',
 				'default' => $defaults['required_fields_incomplete_message'],
 			),
 			array(
 				'name'    => 'profile_photo_incomplete_message',
 				'label'   => _x( 'Profile photo incomplete message', 'Admin settings', 'bp-profile-completion' ),
-				'type'    => 'text',
+				'type'    => 'textarea',
 				'default' => $defaults['profile_photo_incomplete_message'],
 			),
 			array(
 				'name'    => 'profile_cover_incomplete_message',
 				'label'   => _x( 'Profile cover incomplete message', 'Admin settings', 'bp-profile-completion' ),
-				'type'    => 'text',
+				'type'    => 'textarea',
 				'default' => $defaults['profile_cover_incomplete_message'],
 			),
 		);

@@ -13,7 +13,7 @@
 namespace BP_Profile_Completion\Bootstrap;
 
 use BP_Profile_Completion\Admin\Admin_Settings;
-use BP_Profile_Completion\Core\Profile_Completion_Helper;
+use BP_Profile_Completion\Core\BP_Profile_Completion_Helper;
 
 // No direct access.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,6 +31,7 @@ class Bootstrapper {
 	public static function boot() {
 		$self = new self();
 		$self->setup();
+		return $self;
 	}
 
 	/**
@@ -47,9 +48,9 @@ class Bootstrapper {
 	 * These are non auto loadable constructs.
 	 */
 	public function load() {
-		require_once bp_profile_completion()->path . 'src/core/bppc-functions.php';
+		require_once bp_profile_completion()->path . 'src/core/bp-profile-completion-functions.php';
 
-		Profile_Completion_Helper::boot();
+		BP_Profile_Completion_Helper::boot();
 	}
 
 	/**
@@ -67,6 +68,6 @@ class Bootstrapper {
 	 * Load translations.
 	 */
 	public function load_translations() {
-		load_plugin_textdomain( 'bp-profile-completion', false, basename( dirname( bp_profile_completion()->path ) ) . '/languages' );
+		load_plugin_textdomain( 'bp-profile-completion', false, basename( bp_profile_completion()->path ) . '/languages' );
 	}
 }
