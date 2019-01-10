@@ -181,7 +181,7 @@ class BP_Profile_Completion_Helper {
 
 		$incomplete = true;
 		// consider that we have the fields and avatar available by default.
-		$has_fields = $has_photo = $has_avatar = true;
+		$has_fields = $has_photo = $has_cover = true;
 
 		if ( bpprocn_is_required_fields_required() ) {
 			$has_fields = $this->has_required_field_data( $user_id );
@@ -192,13 +192,13 @@ class BP_Profile_Completion_Helper {
 		}
 
 		if ( bpprocn_is_profile_cover_required() ) {
-			$has_avatar = $this->has_uploaded_cover( $user_id );
+			$has_cover = $this->has_uploaded_cover( $user_id );
 		}
 
 		$redirect_url = bp_core_get_user_domain( $user_id ) . bp_get_profile_slug();
 
 		// this might have happened magically(most probably someone update profile by code).
-		if ( $has_avatar && $has_photo && $has_fields ) {
+		if ( $has_cover && $has_photo && $has_fields ) {
 			$this->mark_complete_profile( $user_id );
 			$incomplete = false;
 			do_action( 'bpprocn_user_profile_completed', $user_id );
@@ -208,7 +208,7 @@ class BP_Profile_Completion_Helper {
 		} elseif ( ! $has_photo ) {
 			$this->notice = bpprocn_get_option( 'profile_photo_incomplete_message' );
 			$redirect_url = $redirect_url . '/change-avatar/';
-		} else {
+		} elseif ( ! $has_cover ) {
 			$this->notice = bpprocn_get_option( 'profile_cover_incomplete_message' );
 			$redirect_url = $redirect_url . '/change-cover-image/';
 		}
@@ -287,7 +287,7 @@ class BP_Profile_Completion_Helper {
 	 * @return bool|mixed
 	 */
 	public function has_uploaded_cover( $user_id ) {
-		$has_cover = bp_get_user_meta( $user_id, '_has_profile_cover', true );;
+		$has_cover = bp_get_user_meta( $user_id, '_has_profile_cover', true );
 
 		if ( ! $has_cover ) {
 			$has_cover = bp_attachments_get_user_has_cover_image( $user_id );
