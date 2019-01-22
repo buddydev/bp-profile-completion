@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BuddyPress Profile Completion
  * Version: 1.0.0
- * Plugin URI: https://buddydev.com/plugins/bp-profile-completion
+ * Plugin URI: https://buddydev.com/introducing-buddypress-user-profile-completion/
  * Description: Force users to complete required fields, photos and cover.
  * Author: BuddyDev
  * Author URI: https://buddydev.com/
@@ -18,7 +18,7 @@
 use BP_Profile_Completion\Bootstrap\Autoloader;
 use BP_Profile_Completion\Bootstrap\Bootstrapper;
 
-// If file accessed directly over web code will exit.
+// Exit if accessed directly over web.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -130,7 +130,7 @@ class BP_Profile_Completion {
 
 
 	/**
-	 * Magic method for accessing property as readonly(It's a lie, references can be updated).
+	 * Magic method for accessing property as readonly.
 	 *
 	 * @param string $name property name.
 	 *
