@@ -25,8 +25,8 @@ BuddyPress Profile Completion Plugin allows site admin to force site members to 
 Please see our release post for more details and understanding how this plugin works.
 
 **Important links:-**
-1. [Support Forums](https://buddydev.com/support/forums/)
-2. [Blog Post](https://buddydev.com/introducing-buddypress-user-profile-completion/)
+1. [Blog Post](https://buddydev.com/introducing-buddypress-user-profile-completion/)
+2. [Support Forums](https://buddydev.com/support/forums/)
 3. [More BuddyPress Plugin](https://buddydev.com/plugins/)
 
 Looking to extend BuddyPress more, Please have a look at our
