@@ -23,141 +23,141 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // Do not load of a class with same name exists.
-if ( class_exists( 'BP_Profile_Completion' ) ) {
-	return;
-}
+if ( ! class_exists( 'BP_Profile_Completion' ) ) {
 
-/**
- * Class BP_Profile_Completion
- *
- * @property-read string                $path absolute path to the plugin directory.
- * @property-read string                $url absolute url to the plugin directory.
- * @property-read string                $basename plugin base name.
- * @property-read string                $version plugin version.
- */
-class BP_Profile_Completion {
 
 	/**
-	 * Plugin Version.
+	 * Class BP_Profile_Completion
 	 *
-	 * @var string
+	 * @property-read string $path absolute path to the plugin directory.
+	 * @property-read string $url absolute url to the plugin directory.
+	 * @property-read string $basename plugin base name.
+	 * @property-read string $version plugin version.
 	 */
-	private $version = '1.0.0';
+	class BP_Profile_Completion {
 
-	/**
-	 * Class instance
-	 *
-	 * @var BP_Profile_Completion
-	 */
-	private static $instance = null;
+		/**
+		 * Plugin Version.
+		 *
+		 * @var string
+		 */
+		private $version = '1.0.0';
 
-	/**
-	 * Plugin absolute directory path
-	 *
-	 * @var string
-	 */
-	private $path;
+		/**
+		 * Class instance
+		 *
+		 * @var BP_Profile_Completion
+		 */
+		private static $instance = null;
 
-	/**
-	 * Plugin absolute directory url
-	 *
-	 * @var string
-	 */
-	private $url;
+		/**
+		 * Plugin absolute directory path
+		 *
+		 * @var string
+		 */
+		private $path;
 
-	/**
-	 * Plugin Basename.
-	 *
-	 * @var string
-	 */
-	private $basename;
+		/**
+		 * Plugin absolute directory url
+		 *
+		 * @var string
+		 */
+		private $url;
 
-	/**
-	 * Protected properties. These properties are inaccessible via magic method.
-	 *
-	 * @var array
-	 */
-	private static $protected = array( 'instance' );
+		/**
+		 * Plugin Basename.
+		 *
+		 * @var string
+		 */
+		private $basename;
 
-	/**
-	 * BP_Profile_Completion constructor.
-	 */
-	private function __construct() {
-		$this->bootstrap();
+		/**
+		 * Protected properties. These properties are inaccessible via magic method.
+		 *
+		 * @var array
+		 */
+		private static $protected = array( 'instance' );
+
+		/**
+		 * BP_Profile_Completion constructor.
+		 */
+		private function __construct() {
+			$this->bootstrap();
+		}
+
+		/**
+		 * Get Singleton Instance
+		 *
+		 * @return BP_Profile_Completion
+		 */
+		public static function get_instance() {
+
+			if ( is_null( self::$instance ) ) {
+				self::$instance = new self();
+			}
+
+			return self::$instance;
+		}
+
+		/**
+		 * Bootstrap the core.
+		 */
+		private function bootstrap() {
+			// Setup general properties.
+			$this->path     = plugin_dir_path( __FILE__ );
+			$this->url      = plugin_dir_url( __FILE__ );
+			$this->basename = plugin_basename( __FILE__ );
+
+			// Load autoloader.
+			require_once $this->path . 'src/bootstrap/class-autoloader.php';
+
+			$autoloader = new Autoloader( 'BP_Profile_Completion\\', __DIR__ . '/src/' );
+
+			spl_autoload_register( $autoloader );
+
+			Bootstrapper::boot();
+
+			register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		}
+
+		/**
+		 * On activation.
+		 */
+		public function activate() {
+
+			if ( ! get_option( 'bpprocn_settings' ) ) {
+				require_once $this->path . 'src/core/bp-profile-completion-functions.php';
+				update_option( 'bpprocn_settings', bpprocn_get_default_options() );
+			}
+		}
+
+
+		/**
+		 * Magic method for accessing property as readonly.
+		 *
+		 * @param string $name property name.
+		 *
+		 * @return mixed|null
+		 */
+		public function __get( $name ) {
+
+			if ( ! in_array( $name, self::$protected, true ) && property_exists( $this, $name ) ) {
+				return $this->{$name};
+			}
+
+			return null;
+		}
 	}
 
 	/**
-	 * Get Singleton Instance
+	 * Helper to access singleton instance
 	 *
 	 * @return BP_Profile_Completion
 	 */
-	public static function get_instance() {
-
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
+	function bp_profile_completion() {
+		return BP_Profile_Completion::get_instance();
 	}
 
-	/**
-	 * Bootstrap the core.
-	 */
-	private function bootstrap() {
+	bp_profile_completion();
 
-		// Setup general properties.
-		$this->path     = plugin_dir_path( __FILE__ );
-		$this->url      = plugin_dir_url( __FILE__ );
-		$this->basename = plugin_basename( __FILE__ );
-
-		// Load autoloader.
-		require_once $this->path . 'src/bootstrap/class-autoloader.php';
-
-		$autoloader = new Autoloader( 'BP_Profile_Completion\\', __DIR__ . '/src/' );
-
-		spl_autoload_register( $autoloader );
-
-		Bootstrapper::boot();
-
-		register_activation_hook( __FILE__, array( $this, 'activate' ) );
-	}
-	/**
-	 * On activation.
-	 */
-	public function activate() {
-
-		if ( ! get_option( 'bpprocn_settings' ) ) {
-			require_once $this->path . 'src/core/bp-profile-completion-functions.php';
-			update_option( 'bpprocn_settings', bpprocn_get_default_options() );
-		}
-	}
-
-
-	/**
-	 * Magic method for accessing property as readonly.
-	 *
-	 * @param string $name property name.
-	 *
-	 * @return mixed|null
-	 */
-	public function __get( $name ) {
-
-		if ( ! in_array( $name, self::$protected, true ) && property_exists( $this, $name ) ) {
-			return $this->{$name};
-		}
-
-		return null;
-	}
 }
-
-/**
- * Helper to access singleton instance
- *
- * @return BP_Profile_Completion
- */
-function bp_profile_completion() {
-	return BP_Profile_Completion::get_instance();
-}
-
-bp_profile_completion();
-
