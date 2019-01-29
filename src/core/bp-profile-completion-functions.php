@@ -39,9 +39,9 @@ function bpprocn_get_default_options() {
 		),
 		'restrict_access_to_profile_only'    => 1,
 		'show_profile_incomplete_message'    => 1,
-		'required_fields_incomplete_message' => __( 'Please fill all required profile fields.', 'bp-profile-completion' ),
-		'profile_photo_incomplete_message'   => __( 'Please upload your profile photo!', 'bp-profile-completion' ),
-		'profile_cover_incomplete_message'   => __( 'Please upload your profile cover!', 'bp-profile-completion' ),
+		'required_fields_incomplete_message' => __( 'Please fill all required profile fields.', 'buddypress-profile-completion' ),
+		'profile_photo_incomplete_message'   => __( 'Please upload your profile photo!', 'buddypress-profile-completion' ),
+		'profile_cover_incomplete_message'   => __( 'Please upload your profile cover!', 'buddypress-profile-completion' ),
 	);
 
 	return $defaults;

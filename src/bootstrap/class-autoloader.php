@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * After registering this autoload function with SPL, the following line
  * would cause the function to attempt to load the BP_Profile_Completion\Bar\Baz\Qux class
- * from /path/to/wp-content/plugins/bp-profile-completion/src/bar/baz/class-qux.php:
+ * from /path/to/wp-content/plugins/buddypress-profile-completion/src/bar/baz/class-qux.php:
  *
  *      new BP_Profile_Completion\Baz_Xyz\Qux;
- *  maps to /path/to/wp-content/plugins/bp-profile-completion/src/bar/baz-xyz/class-qux.php
+ *  maps to /path/to/wp-content/plugins/buddypress-profile-completion/src/bar/baz-xyz/class-qux.php
  * The path/directory name should be all lowercase and the the class file is named as 'class-$classname.php'
  *
  * @version 1.0.0

@@ -9,7 +9,7 @@
  * Requires PHP: 5.3
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:  bp-profile-completion
+ * Text Domain:  buddypress-profile-completion
  * Domain Path:  /languages
  *
  * @package BP_Profile_Completion
@@ -21,6 +21,10 @@ use BP_Profile_Completion\Bootstrap\Bootstrapper;
 // Exit if accessed directly over web.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+// Do not load of a class with same name exists.
+if ( class_exists( 'BP_Profile_Completion' ) ) {
+	return;
 }
 
 /**

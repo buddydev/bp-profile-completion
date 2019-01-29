@@ -68,6 +68,6 @@ class Bootstrapper {
 	 * Load translations.
 	 */
 	public function load_translations() {
-		load_plugin_textdomain( 'bp-profile-completion', false, basename( bp_profile_completion()->path ) . '/languages' );
+		load_plugin_textdomain( 'buddypress-profile-completion', false, basename( bp_profile_completion()->path ) . '/languages' );
 	}
 }
