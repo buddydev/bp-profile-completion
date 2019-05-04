@@ -319,7 +319,7 @@ class BP_Profile_Completion_Helper {
 			return $has_fields_complete; // no need to test further.
 		}
 
-		$required_fields = $this->get_all_required_profile_fields();
+		$required_fields = self::get_all_required_profile_fields();
 
 		// No required field, so profile should be considered complete.
 		if ( empty( $required_fields ) ) {
@@ -363,7 +363,7 @@ class BP_Profile_Completion_Helper {
 	 *
 	 * @return array
 	 */
-	public function get_all_required_profile_fields() {
+	public static function get_all_required_profile_fields() {
 		global $wpdb;
 
 		$table = buddypress()->profile->table_name_fields;
