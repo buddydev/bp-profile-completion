@@ -219,7 +219,12 @@ class BP_Profile_Completion_Helper {
 			}
 
 			if ( bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() ) {
-				bp_core_redirect( $redirect_url );
+				bp_core_redirect( apply_filters_ref_array( 'buddypress_profile_completion_redirect', array(
+					$redirect_url,
+					$has_fields,
+					$has_photo,
+					$has_cover,
+				) ) );
 			}
 		}
 	}
