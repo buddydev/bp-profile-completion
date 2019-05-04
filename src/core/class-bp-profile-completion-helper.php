@@ -319,16 +319,17 @@ class BP_Profile_Completion_Helper {
 			return $has_fields_complete; // no need to test further.
 		}
 
-		$required_fields = self::get_all_required_profile_fields();
+		$required_fields    = self::get_all_required_profile_fields();
+		$required_field_ids = wp_list_pluck( $required_fields, 'id' );
 
 		// No required field, so profile should be considered complete.
-		if ( empty( $required_fields ) ) {
+		if ( empty( $required_field_ids ) ) {
 			update_user_meta( $user_id, '_has_required_field_data', 1 );
 
 			return true;
 		}
 
-		$fields_list = '(' . join( ',', $required_fields ) . ')';
+		$fields_list = '(' . join( ',', $required_field_ids ) . ')';
 
 		$query = $wpdb->prepare( "SELECT field_id, value  FROM {$table} WHERE user_id = %d AND field_id IN {$fields_list}", $user_id );
 
@@ -368,9 +369,9 @@ class BP_Profile_Completion_Helper {
 
 		$table = buddypress()->profile->table_name_fields;
 
-		$query = $wpdb->prepare( "SELECT id FROM {$table} WHERE is_required = %d", 1 );
+		$query = $wpdb->prepare( "SELECT id, group_id FROM {$table} WHERE is_required = %d", 1 );
 
-		$fields = $wpdb->get_col( $query );
+		$fields = $wpdb->get_results( $query );
 
 		return $fields;
 	}
