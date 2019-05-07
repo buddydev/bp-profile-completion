@@ -281,7 +281,7 @@ class BP_Profile_Completion_Helper {
 			$has_avatar = bp_get_user_has_avatar( $user_id );// fallback.
 		}
 
-		return $has_avatar;
+		return apply_filters( 'buddypress_profile_completion_has_uploaded_avatar', $has_avatar, $user_id );
 	}
 
 	/**
@@ -298,7 +298,7 @@ class BP_Profile_Completion_Helper {
 			$has_cover = bp_attachments_get_user_has_cover_image( $user_id );
 		}
 
-		return $has_cover;
+		return apply_filters( 'buddypress_profile_completion_has_uploaded_cover', $has_cover, $user_id );
 	}
 
 	/**
@@ -355,7 +355,7 @@ class BP_Profile_Completion_Helper {
 			}
 		}
 
-		return $complete;
+		return apply_filters( 'buddypress_profile_completion_has_required_fields_complete', $complete, $user_id );
 	}
 
 	/**
