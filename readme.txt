@@ -1,5 +1,5 @@
 === BuddyPress Profile Completion ===
-Contributors: buddydev,sbrajesh,ravisharma
+Contributors: buddydev,sbrajesh,raviousprime
 Tags: buddypress, user, profile
 Requires at least: 4.5
 Tested up to: 5.0.3
