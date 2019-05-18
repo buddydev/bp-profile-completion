@@ -43,7 +43,7 @@ class BP_Profile_Completion_Helper {
 		add_action( 'wp_login', array( $this, 'on_login_check' ), 0 );
 
 		// check on account activation for the profile complete.
-		add_action( 'bp_core_activated_user', array( $this, 'check_on_update' ) );
+		// add_action( 'bp_core_activated_user', array( $this, 'check_on_update' ) );
 
 		// check on profile update for the profile completion.
 		add_action( 'xprofile_updated_profile', array( $this, 'check_on_update' ), 0 );
