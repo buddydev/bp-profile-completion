@@ -319,7 +319,7 @@ class BP_Profile_Completion_Helper {
 			return $has_fields_complete; // no need to test further.
 		}
 
-		$required_fields    = self::get_all_required_profile_fields();
+		$required_fields    = self::get_all_required_profile_fields( $user_id );
 
 		// No required field, so profile should be considered complete.
 		if ( empty( $required_fields ) ) {
@@ -361,9 +361,11 @@ class BP_Profile_Completion_Helper {
 	/**
 	 * Get field details
 	 *
+	 * @param int $user_id user id.
+	 *
 	 * @return array|object|null
 	 */
-	public static function get_required_field_details() {
+	public static function get_required_field_details( $user_id ) {
 		global $wpdb;
 
 		$table = buddypress()->profile->table_name_fields;
@@ -372,16 +374,36 @@ class BP_Profile_Completion_Helper {
 
 		$fields = $wpdb->get_results( $query );
 
+		$member_types = bp_get_member_type( $user_id, false );
+		if ( empty( $member_types ) ) {
+			$member_types = array( 'null' );
+		}
+
+		$member_types_fields = \BP_XProfile_Field::get_fields_for_member_type( $member_types );
+		if ( ! empty( $member_types_fields ) ) {
+			$required_fields = array();
+			foreach ( $fields as $field ) {
+				if ( isset( $member_types_fields[ $field->id ] ) ) {
+					$required_fields[] = $field;
+
+				}
+			}
+
+			return $required_fields;
+		}
+
 		return $fields;
 	}
 
 	/**
 	 * Get all required field ids.
 	 *
+	 * @param int $user_id user id.
+	 *
 	 * @return array
 	 */
-	public static function get_all_required_profile_fields() {
-		$fields = self::get_required_field_details();
+	public static function get_all_required_profile_fields( $user_id ) {
+		$fields = self::get_required_field_details( $user_id );
 
 		if ( empty( $fields ) ) {
 			return array();
