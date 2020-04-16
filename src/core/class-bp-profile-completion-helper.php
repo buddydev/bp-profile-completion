@@ -60,6 +60,8 @@ class BP_Profile_Completion_Helper {
 
 		// Show teh notice.
 		add_action( 'bp_template_redirect', array( $this, 'check_profile_completion_state' ) );
+
+		add_filter( 'bp_force_profile_completion_skip_check', array( $this, 'pmpro_compat' ) );
 	}
 
 	/**
@@ -410,5 +412,27 @@ class BP_Profile_Completion_Helper {
 		}
 
 		return wp_list_pluck( $fields, 'id' );
+	}
+
+	/**
+	 * Add compatibility for PMPro.
+	 *
+	 * @param bool $skip skip
+	 *
+	 * @return bool
+	 */
+	public function pmpro_compat($skip ) {
+		global $pmpro_core_pages;
+
+		if ( ! function_exists( 'pmpro_is_checkout' ) || empty( $pmpro_core_pages ) || ! is_array( $pmpro_core_pages ) ) {
+			return $skip;
+		}
+
+		// is it PMpro's page, allow.
+		if ( pmpro_is_checkout() || is_page( $pmpro_core_pages ) ) {
+			$skip = true;
+		}
+
+		return $skip;
 	}
 }
