@@ -2,9 +2,9 @@
 Contributors: buddydev,sbrajesh,raviousprime
 Tags: buddypress, user, profile
 Requires at least: 4.5
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.3
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,10 @@ If you need customization or extending the plugin, please use our [WordPress/Bud
 4. Error message for required profile cover screenshot-4.png
 
 == Changelog ==
+
+
+= 1.0.4 =
+* Do not redirect if PMPro is active and the user is on one of the pages from PMPro.
 
 = 1.0.3 =
 * Fix compatibility issue with field availability due to member types settings(if member type is enabled).
