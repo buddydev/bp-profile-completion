@@ -220,7 +220,7 @@ class BP_Profile_Completion_Helper {
 				bp_core_add_message( $this->notice, 'error' );
 			}
 
-			if ( bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() ) {
+			if ( ! defined( 'DOING_AJAX' ) && bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() ) {
 				bp_core_redirect( apply_filters_ref_array( 'buddypress_profile_completion_redirect', array(
 					$redirect_url,
 					$has_fields,
