@@ -77,6 +77,7 @@ class BP_Profile_Completion_Helper {
 			return;
 		}
 
+		// In future, we should force check completeness, instead of the meta based check.
 		$this->check_on_update( $user->ID );
 	}
 

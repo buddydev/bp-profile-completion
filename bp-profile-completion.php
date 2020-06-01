@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BuddyPress Profile Completion
- * Version: 1.0.4
+ * Version: 1.0.5
  * Plugin URI: https://buddydev.com/introducing-buddypress-user-profile-completion/
  * Description: Force users to complete required fields, photos and cover.
  * Author: BuddyDev
@@ -41,7 +41,7 @@ if ( ! class_exists( 'BP_Profile_Completion' ) ) {
 		 *
 		 * @var string
 		 */
-		private $version = '1.0.4';
+		private $version = '1.0.5';
 
 		/**
 		 * Class instance
