@@ -43,10 +43,10 @@ class BP_Profile_Completion_Helper {
 		add_action( 'wp_login', array( $this, 'on_login_check' ), 0 );
 
 		// check on account activation for the profile complete.
-		// add_action( 'bp_core_activated_user', array( $this, 'check_on_update' ) );
+		// add_action( 'bp_core_activated_user', array( $this, 'on_profile_update' ) );
 
 		// check on profile update for the profile completion.
-		add_action( 'xprofile_updated_profile', array( $this, 'check_on_update' ), 0 );
+		add_action( 'xprofile_updated_profile', array( $this, 'on_profile_update' ), 0 );
 
 		// ON AVATAR UPLOAD
 		// On avatar delete
@@ -81,6 +81,18 @@ class BP_Profile_Completion_Helper {
 	}
 
 	/**
+	 * On profile update, force recheck of the completeness.
+	 *
+	 * @param int $user_id user id.
+	 */
+	public function on_profile_update( $user_id ) {
+		// force recheck.
+		$this->mark_incomplete_profile( $user_id );
+		delete_user_meta( $user_id, '_has_required_field_data' );
+		$this->check_on_update( $user_id );
+	}
+
+	/**
 	 * Checks for profile update and triggers profile completed action.
 	 *
 	 * @param int $user_id user id.
@@ -96,6 +108,7 @@ class BP_Profile_Completion_Helper {
 	 */
 	public function log_uploaded( $user_id ) {
 		bp_update_user_meta( $user_id, '_has_avatar', 1 );
+		$this->mark_incomplete_profile( $user_id ); // always force recheck.
 		$this->check_on_update( $user_id );
 	}
 
@@ -106,6 +119,7 @@ class BP_Profile_Completion_Helper {
 	 */
 	public function log_cover_uploaded( $user_id ) {
 		bp_update_user_meta( $user_id, '_has_profile_cover', 1 );
+		$this->mark_incomplete_profile( $user_id ); // always force recheck.
 		$this->check_on_update( $user_id );
 	}
 
