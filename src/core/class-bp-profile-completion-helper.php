@@ -62,6 +62,8 @@ class BP_Profile_Completion_Helper {
 		add_action( 'bp_template_redirect', array( $this, 'check_profile_completion_state' ) );
 
 		add_filter( 'bp_force_profile_completion_skip_check', array( $this, 'pmpro_compat' ) );
+
+		add_action( 'bpavmod_avatar_restored', array( $this, 'on_restore' ), 10, 2 );
 	}
 
 	/**
@@ -449,5 +451,21 @@ class BP_Profile_Completion_Helper {
 		}
 
 		return $skip;
+	}
+
+	/**
+	 * On restored
+	 *
+	 * @param int    $item_id Item id.
+	 * @param string $item_type Item type.
+	 */
+	public function on_restore( $item_id, $item_type ) {
+
+		if ( 'user' != $item_type ) {
+			return;
+		}
+
+		bp_update_user_meta( $item_id, '_has_avatar', 1 );
+		$this->mark_incomplete_profile( $item_id ); // always force recheck.
 	}
 }
