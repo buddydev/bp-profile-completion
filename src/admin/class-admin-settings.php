@@ -162,6 +162,57 @@ class Admin_Settings {
 
 		$profile_actions->add_fields( $fields );
 
+		// Whitelisted settings tab.
+		$whitelisted = $page->add_panel( 'whitelisted', _x( 'Whitelisted', 'Admin settings panel title', 'buddypress-profile-completion' ) );
+
+		$whitelisted_roles_section = $whitelisted->add_section( 'roles_settings', _x( 'WordPress Roles Settings', 'Admin settings section title', 'buddypress-profile-completion' ) );
+
+		$fields = array(
+			array(
+				'name'    => 'enable_whitelisted_roles',
+				'label'   => _x( 'Enable roles', 'Admin settings', 'buddypress-profile-completion' ),
+				'desc'    => __( 'If enabled, user with selected roles will be marked as whitelisted', 'buddypress-profile-completion' ),
+				'type'    => 'radio',
+				'options' => array(
+					1 => __( 'Yes', 'buddypress-profile-completion' ),
+					0 => __( 'No', 'buddypress-profile-completion' ),
+				),
+				'default' => 0,
+			),
+			array(
+				'name'    => 'whitelisted_roles',
+				'label'   => _x( 'Whitelisted Roles', 'Admin settings', 'buddypress-profile-completion' ),
+				'type'    => 'multicheck',
+				'options' => bpprocn_get_roles(),
+			),
+		);
+
+		$whitelisted_roles_section->add_fields( $fields );
+
+		$whitelisted_member_types_section = $whitelisted->add_section( 'member_types_settings', _x( 'BuddyPress Member Types Settings', 'Admin settings section title', 'buddypress-profile-completion' ) );
+
+		$fields = array(
+			array(
+				'name'    => 'enable_whitelisted_member_types',
+				'label'   => _x( 'Enable member types', 'Admin settings', 'buddypress-profile-completion' ),
+				'desc'    => __( 'If enabled, user with selected member types will be marked as whitelisted', 'buddypress-profile-completion' ),
+				'type'    => 'radio',
+				'options' => array(
+					1 => __( 'Yes', 'buddypress-profile-completion' ),
+					0 => __( 'No', 'buddypress-profile-completion' ),
+				),
+				'default' => 0,
+			),
+			array(
+				'name'    => 'whitelisted_member_types',
+				'label'   => _x( 'Whitelisted Member Types', 'Admin settings', 'buddypress-profile-completion' ),
+				'type'    => 'multicheck',
+				'options' => bpprocn_get_member_types(),
+			),
+		);
+
+		$whitelisted_member_types_section->add_fields( $fields );
+
 		$this->page = $page;
 
 		// allow enabling options.
