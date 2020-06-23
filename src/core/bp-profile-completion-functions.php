@@ -42,6 +42,10 @@ function bpprocn_get_default_options() {
 		'required_fields_incomplete_message' => __( 'Please fill all required profile fields.', 'buddypress-profile-completion' ),
 		'profile_photo_incomplete_message'   => __( 'Please upload your profile photo!', 'buddypress-profile-completion' ),
 		'profile_cover_incomplete_message'   => __( 'Please upload your profile cover!', 'buddypress-profile-completion' ),
+		'enable_whitelisted_roles'           => 0,
+		'whitelisted_roles'                  => array( 'administrator' => 'administrator' ),
+		'enable_whitelisted_member_types'    => 0,
+		'whitelisted_member_types'           => 0,
 	);
 
 	return $defaults;
@@ -112,4 +116,98 @@ function bpprocn_has_incomplete_profile( $user_id ) {
 	}
 
 	return true;
+}
+
+/**
+ * Get roles
+ *
+ * @return array
+ */
+function bpprocn_get_roles() {
+	$roles = get_editable_roles();
+
+	foreach ( $roles as $role => $detail ) {
+		$user_roles[ $role ] = $detail['name'];
+	}
+
+	return $user_roles;
+}
+
+/**
+ * Get roles
+ *
+ * @return array
+ */
+function bpprocn_get_member_types() {
+	$registered_member_types = bp_get_member_types( array(), 'object' );
+
+	$member_types = array();
+	foreach ( $registered_member_types as $type => $member_type_obj ) {
+		$member_types[ $type ] = $member_type_obj->labels['singular_name'];
+	}
+
+	return $member_types;
+}
+
+/**
+ * Check if user has whitelisted roles or not.
+ *
+ * @param int $user_id User id.
+ *
+ * @return bool
+ */
+function bpprocn_user_has_whitelisted_roles( $user_id ) {
+	$user = get_user_by( 'ID', $user_id );
+
+	$whitelisted_roles = bpprocn_get_option( 'whitelisted_roles' );
+	$whitelisted_roles = $whitelisted_roles ? $whitelisted_roles : array();
+
+	$has_roles = false;
+	if ( $user && array_intersect( $user->roles, $whitelisted_roles ) ) {
+		$has_roles = true;
+	}
+
+	return $has_roles;
+}
+
+/**
+ * Check if user has whitelisted member types or not.
+ *
+ * @param int $user_id User id.
+ *
+ * @return bool
+ */
+function bpprocn_user_has_whitelisted_member_types( $user_id ) {
+	$member_types = bp_get_member_type( $user_id, false );
+
+	$whitelisted_member_types = bpprocn_get_option( 'whitelisted_member_types' );
+	$whitelisted_member_types = $whitelisted_member_types ? $whitelisted_member_types : array();
+
+	$has_member_types = false;
+	if ( $member_types && array_intersect( $member_types, $whitelisted_member_types ) ) {
+		$has_member_types = true;
+	}
+
+	return $has_member_types;
+}
+
+/**
+ * Check if user is whitelisted or not.
+ *
+ * @param int $user_id User id.
+ *
+ * @return bool
+ */
+function bpprocn_is_user_whitelisted( $user_id ) {
+	$is_whitelisted = false;
+
+	if ( bpprocn_get_option( 'enable_whitelisted_roles' ) ) {
+		$is_whitelisted = bpprocn_user_has_whitelisted_roles( $user_id );
+	}
+
+	if ( ! $is_whitelisted && bpprocn_get_option( 'enable_whitelisted_member_types' ) ) {
+		$is_whitelisted = bpprocn_user_has_whitelisted_member_types( $user_id );
+	}
+
+	return apply_filters( 'bpprocn_user_whitelisted', $is_whitelisted, $user_id );
 }

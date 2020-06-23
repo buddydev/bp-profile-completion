@@ -177,13 +177,14 @@ class Admin_Settings {
 					1 => __( 'Yes', 'buddypress-profile-completion' ),
 					0 => __( 'No', 'buddypress-profile-completion' ),
 				),
-				'default' => 0,
+				'default' => $defaults['enable_whitelisted_roles'],
 			),
 			array(
 				'name'    => 'whitelisted_roles',
 				'label'   => _x( 'Whitelisted Roles', 'Admin settings', 'buddypress-profile-completion' ),
 				'type'    => 'multicheck',
 				'options' => bpprocn_get_roles(),
+				'default' => $defaults['whitelisted_roles'],
 			),
 		);
 
@@ -201,13 +202,14 @@ class Admin_Settings {
 					1 => __( 'Yes', 'buddypress-profile-completion' ),
 					0 => __( 'No', 'buddypress-profile-completion' ),
 				),
-				'default' => 0,
+				'default' => $defaults['enable_whitelisted_member_types'],
 			),
 			array(
 				'name'    => 'whitelisted_member_types',
 				'label'   => _x( 'Whitelisted Member Types', 'Admin settings', 'buddypress-profile-completion' ),
 				'type'    => 'multicheck',
 				'options' => bpprocn_get_member_types(),
+				'default' => $defaults['enable_whitelisted_member_types'],
 			),
 		);
 
