@@ -68,6 +68,11 @@ function bpprocn_is_required_fields_required() {
  * @return bool
  */
 function bpprocn_is_profile_photo_required() {
+	// Return false if member avatar upload in not enabled.
+	if ( bp_disable_avatar_uploads() ) {
+		return false;
+	}
+
 	$required_criteria = bpprocn_get_option( 'required_criteria' );
 
 	return in_array( 'req_profile_photo', (array) $required_criteria, true );
@@ -79,6 +84,11 @@ function bpprocn_is_profile_photo_required() {
  * @return bool
  */
 function bpprocn_is_profile_cover_required() {
+	// Return false if member cover upload in not enabled.
+	if ( bp_disable_cover_image_uploads() ) {
+		return false;
+	}
+
 	$required_criteria = bpprocn_get_option( 'required_criteria' );
 
 	return in_array( 'req_profile_cover', (array) $required_criteria, true );
