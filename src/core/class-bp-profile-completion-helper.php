@@ -220,6 +220,7 @@ class BP_Profile_Completion_Helper {
 		if ( $has_cover && $has_photo && $has_fields ) {
 			$this->mark_complete_profile( $user_id );
 			$incomplete = false;
+			bp_core_add_message( __( 'Profile completed successfully.', 'bp-profile-completion' ), 'success' );
 			do_action( 'bpprocn_user_profile_completed', $user_id );
 		} elseif ( ! $has_fields ) {
 			$this->notice = bpprocn_get_option( 'required_fields_incomplete_message' );
