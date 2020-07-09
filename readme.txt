@@ -68,6 +68,7 @@ If you need customization or extending the plugin, please use our [WordPress/Bud
 
 = 1.0.6 =
 * Added support of BuddyPress Avatar Moderator avatar restored case.
+* Fix error notification even after completion of profile(was shown on 1 more load) .
 
 = 1.0.5 =
 * Force recheck on profile update, cover upload and avatar upload.
