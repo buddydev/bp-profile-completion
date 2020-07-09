@@ -103,18 +103,20 @@ class Admin_Settings {
 
 		$defaults = bpprocn_get_default_options();
 
-		$required_criteria->add_field( array(
-			'name'    => 'required_criteria',
-			'label'   => _x( 'Required criteria', 'Admin settings', 'buddypress-profile-completion' ),
-			'type'    => 'multicheck',
-			'options' => array(
-				'all_req_fields'    => __( 'Must fill all required fields', 'buddypress-profile-completion' ),
-				'req_profile_photo' => __( 'Must have profile photo', 'buddypress-profile-completion' ),
-				'req_profile_cover' => __( 'Must have profile cover', 'buddypress-profile-completion' ),
-			),
-			'default' => $defaults['required_criteria'],
-			'desc'    => __( 'User will need to fill all the selected criteria for profile completion', 'buddypress-profile-completion' ),
-		) );
+		$required_criteria->add_field(
+			array(
+				'name'    => 'required_criteria',
+				'label'   => _x( 'Required criteria', 'Admin settings', 'buddypress-profile-completion' ),
+				'type'    => 'multicheck',
+				'options' => array(
+					'all_req_fields'    => __( 'Must fill all required fields', 'buddypress-profile-completion' ),
+					'req_profile_photo' => __( 'Must have profile photo', 'buddypress-profile-completion' ),
+					'req_profile_cover' => __( 'Must have profile cover', 'buddypress-profile-completion' ),
+				),
+				'default' => $defaults['required_criteria'],
+				'desc'    => __( 'User will need to fill all the selected criteria for profile completion', 'buddypress-profile-completion' ),
+			)
+		);
 
 		$profile_actions = $panel->add_section( 'incomplete_profile_actions', _x( 'Profile incomplete actions', 'Admin settings section title', 'buddypress-profile-completion' ) );
 
@@ -161,7 +163,7 @@ class Admin_Settings {
 		);
 
 		$profile_actions->add_fields( $fields );
-
+		/*
 		// Whitelisted settings tab.
 		$whitelisted = $page->add_panel( 'whitelisted', _x( 'Whitelisted', 'Admin settings panel title', 'buddypress-profile-completion' ) );
 
@@ -214,7 +216,7 @@ class Admin_Settings {
 		);
 
 		$whitelisted_member_types_section->add_fields( $fields );
-
+		*/
 		$this->page = $page;
 
 		// allow enabling options.
