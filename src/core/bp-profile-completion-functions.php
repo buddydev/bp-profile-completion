@@ -230,5 +230,19 @@ function bpprocn_is_user_whitelisted( $user_id ) {
  * @return bool
  */
 function bpprocn_user_has_avatar( $user_id ) {
-	return bp_get_user_has_avatar( $user_id );
+	$has_avatar = false;
+
+	if ( function_exists( 'leira_letter_avatar' ) && leira_letter_avatar()->is_active() ) {
+		$compatibility = leira_letter_avatar()->get_loader()->get( 'compatibility' );
+
+		remove_filter( 'bp_core_avatar_default', array( $compatibility, 'bp_core_avatar_default' ) );
+
+		$has_avatar = bp_get_user_has_avatar( $user_id );
+
+		add_filter( 'bp_core_avatar_default', array( $compatibility, 'bp_core_avatar_default' ), 10, 2 );
+	} else {
+		$has_avatar = bp_get_user_has_avatar( $user_id );
+	}
+
+	return $has_avatar;
 }
