@@ -221,3 +221,14 @@ function bpprocn_is_user_whitelisted( $user_id ) {
 
 	return apply_filters( 'bpprocn_user_whitelisted', $is_whitelisted, $user_id );
 }
+
+/**
+ * Fallback to user has avatar
+ *
+ * @param int $user_id User id.
+ *
+ * @return bool
+ */
+function bpprocn_user_has_avatar( $user_id ) {
+	return bp_get_user_has_avatar( $user_id );
+}

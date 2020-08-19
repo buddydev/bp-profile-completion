@@ -298,7 +298,7 @@ class BP_Profile_Completion_Helper {
 		$has_avatar = bp_get_user_meta( $user_id, '_has_avatar', true );
 
 		if ( ! $has_avatar ) {
-			$has_avatar = bp_get_user_has_avatar( $user_id );// fallback.
+			$has_avatar = bpprocn_user_has_avatar( $user_id );// fallback.
 		}
 
 		return apply_filters( 'buddypress_profile_completion_has_uploaded_avatar', $has_avatar, $user_id );
