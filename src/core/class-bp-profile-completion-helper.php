@@ -37,7 +37,7 @@ class BP_Profile_Completion_Helper {
 	 */
 	public function setup() {
 
-		add_filter( 'bp_settings_admin_nav', '__return_empty_array' );
+		//add_filter( 'bp_settings_admin_nav', '__return_empty_array' );
 
 		// check on login for the profile completion.
 		add_action( 'wp_login', array( $this, 'on_login_check' ), 0 );
