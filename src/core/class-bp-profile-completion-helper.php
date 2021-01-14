@@ -435,12 +435,16 @@ class BP_Profile_Completion_Helper {
 	/**
 	 * Add compatibility for PMPro.
 	 *
-	 * @param bool $skip skip
+	 * @param bool $skip Skip.
 	 *
 	 * @return bool
 	 */
 	public function pmpro_compat($skip ) {
 		global $pmpro_core_pages;
+
+		if ( bp_is_user() ) {
+			return $skip;
+		}
 
 		if ( ! function_exists( 'pmpro_is_checkout' ) || empty( $pmpro_core_pages ) || ! is_array( $pmpro_core_pages ) ) {
 			return $skip;
