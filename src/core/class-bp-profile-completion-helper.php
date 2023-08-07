@@ -48,15 +48,8 @@ class BP_Profile_Completion_Helper {
 		// check on profile update for the profile completion.
 		add_action( 'xprofile_updated_profile', array( $this, 'on_profile_update' ), 0 );
 
-		// ON AVATAR UPLOAD
-		// On avatar delete
-		// Record on new avatar upload & check for profile completion.
-		add_action( 'xprofile_avatar_uploaded', array( $this, 'log_uploaded' ) );
-		add_action( 'xprofile_cover_image_uploaded', array( $this, 'log_cover_uploaded' ) );
-
-		// on avatar delete, remove the log and mark profile incomplete.
-		add_action( 'bp_core_delete_existing_avatar', array( $this, 'log_deleted' ) );
-		add_action( 'xprofile_cover_image_deleted', array( $this, 'log_cover_deleted' ) );
+		$this->handle_avatar_actions();
+		$this->handle_cover_image_actions();
 
 		// Show teh notice.
 		add_action( 'bp_template_redirect', array( $this, 'check_profile_completion_state' ) );
@@ -64,6 +57,34 @@ class BP_Profile_Completion_Helper {
 		add_filter( 'bp_force_profile_completion_skip_check', array( $this, 'pmpro_compat' ) );
 
 		add_action( 'bpavmod_avatar_restored', array( $this, 'on_restore' ), 10, 2 );
+	}
+
+	/**
+	 * Attaches avatar actions
+	 */
+	private function handle_avatar_actions() {
+		add_action( 'bp_core_delete_existing_avatar', array( $this, 'log_deleted' ) );
+
+		if ( defined( 'BP_PLATFORM_VERSION' ) || ( isset( buddypress()->version ) && version_compare( buddypress()->version, '6.0.0', '<' ) ) ) {
+			// Record on new avatar upload & check for profile completion.
+			add_action( 'xprofile_avatar_uploaded', array( $this, 'log_uploaded' ) );
+		} else {
+			add_action( 'bp_members_avatar_uploaded', array( $this, 'log_uploaded' ) );
+		}
+	}
+
+	/**
+	 * Attaches cover image actions
+	 */
+	private function handle_cover_image_actions() {
+
+		if ( defined( 'BP_PLATFORM_VERSION' ) || ( isset( buddypress()->version ) && version_compare( buddypress()->version, '6.0.0', '<' ) ) ) {
+			add_action( 'xprofile_cover_image_uploaded', array( $this, 'log_cover_uploaded' ) );
+			add_action( 'xprofile_cover_image_deleted', array( $this, 'log_cover_deleted' ) );
+		} else {
+			add_action( 'members_cover_image_uploaded', array( $this, 'log_cover_uploaded' ) );
+			add_action( 'members_cover_image_deleted', array( $this, 'log_cover_deleted' ) );
+		}
 	}
 
 	/**
