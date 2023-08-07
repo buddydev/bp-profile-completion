@@ -2,7 +2,7 @@
 Contributors: buddydev,sbrajesh,raviousprime
 Tags: buddypress, user, profile
 Requires at least: 4.5
-Tested up to: 5.4.1
+Tested up to: 6.3
 Requires PHP: 5.3
 Stable tag: 1.0.9
 License: GPLv2
