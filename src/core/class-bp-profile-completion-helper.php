@@ -48,8 +48,8 @@ class BP_Profile_Completion_Helper {
 		// check on profile update for the profile completion.
 		add_action( 'xprofile_updated_profile', array( $this, 'on_profile_update' ), 0 );
 
-		$this->handle_avatar_actions();
-		$this->handle_cover_image_actions();
+		$this->register_avatar_actions();
+		$this->register_cover_image_actions();
 
 		// Show teh notice.
 		add_action( 'bp_template_redirect', array( $this, 'check_profile_completion_state' ) );
@@ -62,7 +62,7 @@ class BP_Profile_Completion_Helper {
 	/**
 	 * Attaches avatar actions
 	 */
-	private function handle_avatar_actions() {
+	private function register_avatar_actions() {
 		add_action( 'bp_core_delete_existing_avatar', array( $this, 'log_deleted' ) );
 
 		if ( defined( 'BP_PLATFORM_VERSION' ) || ( isset( buddypress()->version ) && version_compare( buddypress()->version, '6.0.0', '<' ) ) ) {
@@ -76,7 +76,7 @@ class BP_Profile_Completion_Helper {
 	/**
 	 * Attaches cover image actions
 	 */
-	private function handle_cover_image_actions() {
+	private function register_cover_image_actions() {
 
 		if ( defined( 'BP_PLATFORM_VERSION' ) || ( isset( buddypress()->version ) && version_compare( buddypress()->version, '6.0.0', '<' ) ) ) {
 			add_action( 'xprofile_cover_image_uploaded', array( $this, 'log_cover_uploaded' ) );
