@@ -371,7 +371,7 @@ class BP_Profile_Completion_Helper {
 
 		$fields_list = '(' . join( ',', $required_fields ) . ')';
 
-		$query = $wpdb->prepare( "SELECT field_id, value  FROM {$table} WHERE user_id = %d AND field_id IN {$fields_list}", $user_id );
+		$query = $wpdb->prepare( "SELECT field_id, value  FROM {$table} WHERE user_id = %d AND field_id IN {$fields_list} GROUP BY field_id", $user_id );
 
 		$profile_entries = $wpdb->get_results( $query );
 
