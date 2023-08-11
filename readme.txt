@@ -4,7 +4,7 @@ Tags: buddypress, user, profile
 Requires at least: 4.5
 Tested up to: 6.3
 Requires PHP: 5.3
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ If you need customization or extending the plugin, please use our [WordPress/Bud
 4. Error message for required profile cover screenshot-4.png
 
 == Changelog ==
+= 1.1.0 =
+* Fixed required field check for multi valued fields.
+
 = 1.0.9 =
 * handle correct action based on BuddyPress version and BuddyBoss context
 
