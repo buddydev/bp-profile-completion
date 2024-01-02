@@ -235,7 +235,9 @@ class BP_Profile_Completion_Helper {
 			$has_cover = $this->has_uploaded_cover( $user_id );
 		}
 
-		$redirect_url = bp_core_get_user_domain( $user_id ) . bp_get_profile_slug();
+		$user_url = function_exists( 'bp_members_get_user_url' ) ? bp_members_get_user_url( $user_id ) : bp_core_get_user_domain( $user_id );
+
+		$redirect_url = $user_url . bp_get_profile_slug();
 
 		// this might have happened magically(most probably someone update profile by code).
 		if ( $has_cover && $has_photo && $has_fields ) {
