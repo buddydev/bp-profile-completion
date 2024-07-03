@@ -36,12 +36,14 @@ function bpprocn_get_default_options() {
 			'all_req_fields'    => 'all_req_fields',
 			'req_profile_photo' => 'req_profile_photo',
 			'req_profile_cover' => 'req_profile_cover',
+			'req_photos_in_album' => 'req_photos_in_album'
 		),
 		'restrict_access_to_profile_only'    => 1,
 		'show_profile_incomplete_message'    => 1,
 		'required_fields_incomplete_message' => __( 'Please fill all required profile fields.', 'buddypress-profile-completion' ),
 		'profile_photo_incomplete_message'   => __( 'Please upload your profile photo!', 'buddypress-profile-completion' ),
 		'profile_cover_incomplete_message'   => __( 'Please upload your profile cover!', 'buddypress-profile-completion' ),
+		"profile_photos_incomplete_message"  => __( 'Please upload photos in your albums!', 'buddypress-profile-completion' ),
 		'enable_whitelisted_roles'           => 0,
 		'whitelisted_roles'                  => array( 'administrator' => 'administrator' ),
 		'enable_whitelisted_member_types'    => 0,
@@ -77,6 +79,23 @@ function bpprocn_is_profile_photo_required() {
 
 	return in_array( 'req_profile_photo', (array) $required_criteria, true );
 }
+
+/**
+ * Check if album photos are mandatory or not for profile completion.
+ *
+ * @return bool
+ */
+function bpprocn_is_profile_photos_required() {
+	// Return false if bp media disabled
+	if ( ! function_exists( 'bp_is_active' ) || ! bp_is_active( 'media' ) ) {
+		return false;
+	}
+
+	$required_criteria = bpprocn_get_option( 'required_criteria' );
+
+	return in_array( 'req_photos_in_album', (array) $required_criteria, true );
+}
+
 
 /**
  * Check if profile cover is mandatory or not for profile completion.

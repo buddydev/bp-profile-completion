@@ -221,7 +221,7 @@ class BP_Profile_Completion_Helper {
 
 		$incomplete = true;
 		// consider that we have the fields and avatar available by default.
-		$has_fields = $has_photo = $has_cover = true;
+		$has_fields = $has_photo = $has_cover = $_has_photos = true;
 
 		if ( bpprocn_is_required_fields_required() ) {
 			$has_fields = $this->has_required_field_data( $user_id );
@@ -229,6 +229,10 @@ class BP_Profile_Completion_Helper {
 
 		if ( bpprocn_is_profile_photo_required() ) {
 			$has_photo = $this->has_uploaded_avatar( $user_id );
+		}
+
+		if(bpprocn_is_profile_photos_required() ){
+			$has_photos = $this->has_uploaded_photos( $user_id );
 		}
 
 		if ( bpprocn_is_profile_cover_required() ) {
@@ -240,7 +244,7 @@ class BP_Profile_Completion_Helper {
 		$redirect_url = $user_url . bp_get_profile_slug();
 
 		// this might have happened magically(most probably someone update profile by code).
-		if ( $has_cover && $has_photo && $has_fields ) {
+		if ( $has_cover && $has_photo && $has_fields && $has_photos ) {
 			$this->mark_complete_profile( $user_id );
 			$incomplete = false;
 			bp_core_add_message( __( 'Profile completed successfully.', 'bp-profile-completion' ), 'success' );
@@ -255,18 +259,28 @@ class BP_Profile_Completion_Helper {
 			$this->notice = bpprocn_get_option( 'profile_cover_incomplete_message' );
 			$redirect_url = $redirect_url . '/change-cover-image/';
 		}
+		else if( ! $has_photos ){
+			$this->notice = bpprocn_get_option( 'profile_photos_incomplete_message' );
+			$redirect_url = bp_core_get_user_domain( $user_id ) . '/photos/albums';
+		}
 
 		if ( $incomplete ) {
 			if ( bpprocn_show_profile_incomplete_message() && $this->notice ) {
 				bp_core_add_message( $this->notice, 'error' );
 			}
 
-			if ( ! defined( 'DOING_AJAX' ) && bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() ) {
+			global $wp;
+			// Since slugs itself can't contain slashes,
+			// let's explode on slashes and get just the last portion.
+			$in_photos = str_contains($wp->request, wp_get_current_user()->user_login.'/photos');
+
+			if ( ! defined( 'DOING_AJAX' ) && bpprocn_is_profile_restriction_enabled() && ! bp_is_user_profile() && !$in_photos) {
 				bp_core_redirect( apply_filters_ref_array( 'buddypress_profile_completion_redirect', array(
 					$redirect_url,
 					$has_fields,
 					$has_photo,
 					$has_cover,
+					$has_photos
 				) ) );
 			}
 		}
@@ -325,6 +339,27 @@ class BP_Profile_Completion_Helper {
 		}
 
 		return apply_filters( 'buddypress_profile_completion_has_uploaded_avatar', $has_avatar, $user_id );
+	}
+
+	/** Check if user has uploaded photos or not.
+	 *
+	 * @param int $user_id User id.
+	 *
+	 * @return bool|mixed
+	 */
+	public function has_uploaded_photos( $user_id ) {
+		$has_photos = false;
+
+        $gallery_id = 0;
+        $galleries = bp_album_get( ['user_id' => $user_id] );
+        foreach ($galleries["albums"] as $gallery) {
+			$medias = bp_media_get( ['album_id' => $gallery->id] )["medias"];
+            if(count($medias) > 0) {
+				$has_photos = true;
+				break;
+			}
+		}
+		return apply_filters( 'buddypress_profile_completion_has_uploaded_photos', $has_photos, $user_id );
 	}
 
 	/**
