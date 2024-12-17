@@ -214,6 +214,10 @@ class BP_Profile_Completion_Helper {
 			return; // No need to force super admin.
 		}
 
+		if ( bpprocn_is_user_whitelisted( $user_id ) ) {
+			return; // No need to force whitelisted users.
+		}
+
 		// Filter to skip profile completion check.
 		if ( apply_filters( 'bp_force_profile_completion_skip_check', false ) ) {
 			return;

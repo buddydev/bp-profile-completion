@@ -169,7 +169,7 @@ function bpprocn_get_member_types() {
 function bpprocn_user_has_whitelisted_roles( $user_id ) {
 	$user = get_user_by( 'ID', $user_id );
 
-	$whitelisted_roles = bpprocn_get_option( 'whitelisted_roles' );
+	$whitelisted_roles = (array) bpprocn_get_option( 'whitelisted_roles' );
 	$whitelisted_roles = $whitelisted_roles ? $whitelisted_roles : array();
 
 	$has_roles = false;
@@ -215,9 +215,9 @@ function bpprocn_is_user_whitelisted( $user_id ) {
 		$is_whitelisted = bpprocn_user_has_whitelisted_roles( $user_id );
 	}
 
-	if ( ! $is_whitelisted && bpprocn_get_option( 'enable_whitelisted_member_types' ) ) {
-		$is_whitelisted = bpprocn_user_has_whitelisted_member_types( $user_id );
-	}
+	//if ( ! $is_whitelisted && bpprocn_get_option( 'enable_whitelisted_member_types' ) ) {
+		//$is_whitelisted = bpprocn_user_has_whitelisted_member_types( $user_id );
+	//}
 
 	return apply_filters( 'bpprocn_user_whitelisted', $is_whitelisted, $user_id );
 }

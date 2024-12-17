@@ -163,7 +163,7 @@ class Admin_Settings {
 		);
 
 		$profile_actions->add_fields( $fields );
-		/*
+
 		// Whitelisted settings tab.
 		$whitelisted = $page->add_panel( 'whitelisted', _x( 'Whitelisted', 'Admin settings panel title', 'buddypress-profile-completion' ) );
 
@@ -191,7 +191,7 @@ class Admin_Settings {
 		);
 
 		$whitelisted_roles_section->add_fields( $fields );
-
+		/*
 		$whitelisted_member_types_section = $whitelisted->add_section( 'member_types_settings', _x( 'BuddyPress Member Types Settings', 'Admin settings section title', 'buddypress-profile-completion' ) );
 
 		$fields = array(
